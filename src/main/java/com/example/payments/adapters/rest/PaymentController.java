@@ -29,37 +29,37 @@ public class PaymentController {
     }
 
     @PostMapping("/{paymentId}/authorizations")
-    public PaymentResponse authorize(@PathVariable String paymentId, @RequestBody AuthorizePaymentRequest request) {
+    public PaymentResponse authorize(@PathVariable("paymentId") String paymentId, @RequestBody AuthorizePaymentRequest request) {
         return PaymentResponse.from(service.execute(new AuthorizePaymentCommand(paymentId, request.authorizationCode())));
     }
 
     @PostMapping("/{paymentId}/captures")
-    public PaymentResponse capture(@PathVariable String paymentId, @RequestBody CapturePaymentRequest request) {
+    public PaymentResponse capture(@PathVariable("paymentId") String paymentId, @RequestBody CapturePaymentRequest request) {
         return PaymentResponse.from(service.execute(new CapturePaymentCommand(paymentId, request.captureReference())));
     }
 
     @PostMapping("/{paymentId}/failures")
-    public PaymentResponse fail(@PathVariable String paymentId, @RequestBody FailPaymentRequest request) {
+    public PaymentResponse fail(@PathVariable("paymentId") String paymentId, @RequestBody FailPaymentRequest request) {
         return PaymentResponse.from(service.execute(new FailPaymentCommand(paymentId, request.reason())));
     }
 
     @PostMapping("/{paymentId}/refunds")
-    public PaymentResponse refund(@PathVariable String paymentId, @RequestBody RefundPaymentRequest request) {
+    public PaymentResponse refund(@PathVariable("paymentId") String paymentId, @RequestBody RefundPaymentRequest request) {
         return PaymentResponse.from(service.execute(new RefundPaymentCommand(paymentId, request.amount(), request.reason())));
     }
 
     @PostMapping("/{paymentId}/cancellations")
-    public PaymentResponse cancel(@PathVariable String paymentId, @RequestBody CancelPaymentRequest request) {
+    public PaymentResponse cancel(@PathVariable("paymentId") String paymentId, @RequestBody CancelPaymentRequest request) {
         return PaymentResponse.from(service.execute(new CancelPaymentCommand(paymentId, request.reason())));
     }
 
     @GetMapping("/{paymentId}")
-    public PaymentResponse get(@PathVariable String paymentId) {
+    public PaymentResponse get(@PathVariable("paymentId") String paymentId) {
         return PaymentResponse.from(service.getPayment(paymentId));
     }
 
     @GetMapping("/{paymentId}/events")
-    public List<DomainEvent> events(@PathVariable String paymentId) {
+    public List<DomainEvent> events(@PathVariable("paymentId") String paymentId) {
         return service.getEvents(paymentId);
     }
 }
